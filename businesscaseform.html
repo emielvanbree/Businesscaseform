@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salesupply · WMS Integration Business Case-Light</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chosen Palette: Salesupply (Primary Blue, Grays) -->
+  <!-- Application Structure Plan: A two-column responsive layout with a main form on the left and a sticky summary sidebar on the right. This structure is chosen for its clarity in separating data input from calculated output, providing the user with immediate feedback on their entries. The flow is a straightforward, top-to-bottom form filling process, culminating in an export action. -->
+  <!-- Visualization & Content Choices: The primary "visualization" is a set of dynamic KPI text fields in the summary. This is an "Inform" goal. The method is direct text update via JavaScript. The interaction is real-time calculation on user input. This is justified as it provides the most direct and immediate feedback for a financial calculation tool. No charting libraries are needed. -->
+  <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+  <style>
+    body {
+      font-family: Calibri, "Century Gothic", Arial, Helvetica, sans-serif;
+    }
+  </style>
+</head>
+<body class="text-gray-800 bg-gradient-to-b from-[#fbfdff] to-[#f5f9fb]">
+
+  <header class="bg-[#00B1E2] text-white p-5 sticky top-0 z-50 shadow-md flex items-center gap-4">
+    <div class="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center font-bold text-xl">S</div>
+    <div>
+      <h1 class="text-xl font-bold tracking-tight">Salesupply — WMS Integration Business Case</h1>
+      <p class="text-sm opacity-90">Front-end only ·  · export to Word</p>
+    </div>
+  </header>
+
+  <div class="max-w-6xl mx-auto p-4 sm:p-6">
+    <div class="flex justify-end mb-4">
+      <button id="btnReset" class="bg-red-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-red-600 active:translate-y-px transition-all">Reset</button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <main class="lg:col-span-2 flex flex-col gap-6" id="form">
+        
+        <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 space-y-4">
+          <h2 class="text-xl font-bold text-gray-700">1. Integration Overview</h2>
+          <p class="text-sm text-gray-500">Summarize the basic context of this warehouse integration.</p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="partner" class="block text-sm font-bold text-gray-700 mb-1">Warehouse Partner</label>
+              <input id="partner" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., DHL Supply Chain — Rheinberg">
+            </div>
+            <div>
+              <label for="region" class="block text-sm font-bold text-gray-700 mb-1">Country/Region</label>
+              <input id="region" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., DE / DACH">
+            </div>
+            <div>
+              <label for="integrationType" class="block text-sm font-bold text-gray-700 mb-1">Type of Integration</label>
+              <select id="integrationType" class="w-full p-3 border border-gray-300 rounded-lg bg-white">
+                <option>New API development</option>
+                <option>Standard API configuration</option>
+                <option>One-off custom solution</option>
+              </select>
+            </div>
+            <div>
+              <label for="golive" class="block text-sm font-bold text-gray-700 mb-1">Expected Go-Live Date</label>
+              <input id="golive" type="date" class="w-full p-3 border border-gray-300 rounded-lg">
+            </div>
+          </div>
+          <div>
+            <label for="fit" class="block text-sm font-bold text-gray-700 mb-1">Strategic Fit (short description)</label>
+            <textarea id="fit" class="w-full p-3 border border-gray-300 rounded-lg min-h-[90px]" placeholder="Expands DE market coverage, required by key brand X..."></textarea>
+          </div>
+        </section>
+
+        <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 space-y-4">
+          <h2 class="text-xl font-bold text-gray-700">2. Value Assessment</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="revenue" class="block text-sm font-bold text-gray-700 mb-1">Estimated Annual Revenue Growth (€)</label>
+              <input id="revenue" type="number" class="w-full p-3 border border-gray-300 rounded-lg text-right" placeholder="0" min="0" step="0.01">
+            </div>
+            <div>
+              <label for="volume" class="block text-sm font-bold text-gray-700 mb-1">Volume Growth (Orders / Month)</label>
+              <input id="volume" type="number" class="w-full p-3 border border-gray-300 rounded-lg text-right" placeholder="0" min="0" step="1">
+            </div>
+          </div>
+          <div>
+            <label for="expansion" class="block text-sm font-bold text-gray-700 mb-1">Customer / Market Expansion Benefits</label>
+            <textarea id="expansion" class="w-full p-3 border border-gray-300 rounded-lg min-h-[90px]" placeholder="New region access, strategic logo client..."></textarea>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+            <label class="flex items-center gap-2 p-2 border rounded-full bg-white cursor-pointer hover:bg-gray-50"><input type="checkbox" id="sv_region"> New region access</label>
+            <label class="flex items-center gap-2 p-2 border rounded-full bg-white cursor-pointer hover:bg-gray-50"><input type="checkbox" id="sv_client"> Key client requirement</label>
+            <label class="flex items-center gap-2 p-2 border rounded-full bg-white cursor-pointer hover:bg-gray-50"><input type="checkbox" id="sv_position"> Competitive positioning</label>
+            <label class="flex items-center gap-2 p-2 border rounded-full bg-white cursor-pointer hover:bg-gray-50"><input type="checkbox" id="sv_portfolio"> Service portfolio improvement</label>
+          </div>
+        </section>
+
+        <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 space-y-4">
+          <h2 class="text-xl font-bold text-gray-700">3. Cost Assessment</h2>
+          <div class="space-y-4">
+            <p class="font-bold text-gray-600 border-t pt-4">3.1 Development Costs (one-off)</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div><label for="c_newapi" class="block text-sm font-bold text-gray-700 mb-1">New API Development (€)</label><input id="c_newapi" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+              <div><label for="c_custom" class="block text-sm font-bold text-gray-700 mb-1">Customization / Coding (€)</label><input id="c_custom" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+            </div>
+            <p class="font-bold text-gray-600 border-t pt-4">3.2 Setup & Configuration (one-off)</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div><label for="c_setup_std" class="block text-sm font-bold text-gray-700 mb-1">Standard API setup (€)</label><input id="c_setup_std" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+              <div><label for="c_setup_partner" class="block text-sm font-bold text-gray-700 mb-1">Partner-specific configuration (€)</label><input id="c_setup_partner" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+            </div>
+            <p class="font-bold text-gray-600 border-t pt-4">3.3 Other One-off Costs</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div><label for="c_test" class="block text-sm font-bold text-gray-700 mb-1">Testing / Certification (€)</label><input id="c_test" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+              <div><label for="c_pm" class="block text-sm font-bold text-gray-700 mb-1">Project Management / Onboarding (€)</label><input id="c_pm" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+            </div>
+            <p class="font-bold text-gray-600 border-t pt-4">3.4 Recurring Operating Costs</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div><label for="c_hosting" class="block text-sm font-bold text-gray-700 mb-1">Hosting & Maintenance (€/mo)</label><input id="c_hosting" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+              <div><label for="c_support" class="block text-sm font-bold text-gray-700 mb-1">Support & Monitoring (€/mo)</label><input id="c_support" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+              <div><label for="c_license" class="block text-sm font-bold text-gray-700 mb-1">SLA / License fees (€/mo)</label><input id="c_license" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 space-y-4">
+          <h2 class="text-xl font-bold text-gray-700">4. Risk Assessment</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="space-y-1"><label for="r_tech" class="block text-sm font-bold text-gray-700">Technical Risk</label><select id="r_tech" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select><textarea id="r_tech_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="Untested WMS API..."></textarea></div>
+            <div class="space-y-1"><label for="r_dep" class="block text-sm font-bold text-gray-700">Dependency Risk</label><select id="r_dep" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select><textarea id="r_dep_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="Reliance on partner..."></textarea></div>
+            <div class="space-y-1"><label for="r_com" class="block text-sm font-bold text-gray-700">Commercial Risk</label><select id="r_com" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select><textarea id="r_com_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="Demand uncertainty..."></textarea></div>
+          </div>
+        </section>
+
+        <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6 space-y-4">
+          <h2 class="text-xl font-bold text-gray-700">5. Recommendation</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div><label for="decision" class="block text-sm font-bold text-gray-700 mb-1">Go / No-Go</label><select id="decision" class="w-full p-3 border rounded-lg bg-white"><option>Recommended</option><option>Not Recommended</option><option>On Hold</option></select></div>
+            <div><label for="owner" class="block text-sm font-bold text-gray-700 mb-1">Business Case Owner</label><input id="owner" class="w-full p-3 border rounded-lg" placeholder="Your name / team"></div>
+          </div>
+          <div><label for="reasoning" class="block text-sm font-bold text-gray-700 mb-1">Reasoning (short)</label><textarea id="reasoning" class="w-full p-3 border rounded-lg min-h-[90px]" placeholder="Revenue vs. cost trade-off..."></textarea></div>
+        </section>
+
+        <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-6">
+          <button id="btnGenerateDoc" class="w-full bg-green-600 text-white font-bold py-3 px-5 rounded-full shadow-lg hover:bg-green-700 active:translate-y-px transition-all">Download Word (.doc)</button>
+        </section>
+      </main>
+
+      <aside class="lg:col-span-1">
+        <div class="sticky top-24 bg-white border border-gray-200 rounded-2xl shadow-lg p-6">
+          <h2 class="text-xl font-bold text-gray-700 mb-4">Cost vs. Value Summary</h2>
+          <div class="space-y-4">
+            <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-[#00B1E2]">
+              <div class="text-sm text-gray-600">Total One-off Costs (€)</div>
+              <div id="out_oneoff" class="text-2xl font-extrabold text-gray-800">€ 0</div>
+            </div>
+            <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-amber-500">
+              <div class="text-sm text-gray-600">Annual Recurring Costs (€)</div>
+              <div id="out_recurring" class="text-2xl font-extrabold text-gray-800">€ 0</div>
+            </div>
+            <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-green-500">
+              <div class="text-sm text-gray-600">Expected Annual Revenue (€)</div>
+              <div id="out_revenue" class="text-2xl font-extrabold text-gray-800">€ 0</div>
+            </div>
+            <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-purple-500">
+              <div class="text-sm text-gray-600">ROI after year 1</div>
+              <div id="out_roi_y1" class="text-2xl font-extrabold text-gray-800">0%</div>
+            </div>
+            <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-purple-500">
+              <div class="text-sm text-gray-600">ROI after year 3</div>
+              <div id="out_roi_y3" class="text-2xl font-extrabold text-gray-800">0%</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    
+    <footer class="text-center text-gray-500 mt-12 py-6">
+      <small>© <span id="year"></span> Salesupply · Business Case-Light tool.</small>
+    </footer>
+  </div>
+
+  <script>
+    const euroFormatter = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 });
+    const percentFormatter = new Intl.NumberFormat('de-DE', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 2 });
+
+    const get = id => document.getElementById(id);
+    const fields = {
+      partner: get('partner'), region: get('region'), integrationType: get('integrationType'), golive: get('golive'), fit: get('fit'),
+      revenue: get('revenue'), volume: get('volume'), expansion: get('expansion'),
+      sv_region: get('sv_region'), sv_client: get('sv_client'), sv_position: get('sv_position'), sv_portfolio: get('sv_portfolio'),
+      c_newapi: get('c_newapi'), c_custom: get('c_custom'), c_setup_std: get('c_setup_std'), c_setup_partner: get('c_setup_partner'),
+      c_test: get('c_test'), c_pm: get('c_pm'), c_hosting: get('c_hosting'), c_support: get('c_support'), c_license: get('c_license'),
+      r_tech: get('r_tech'), r_tech_notes: get('r_tech_notes'), r_dep: get('r_dep'), r_dep_notes: get('r_dep_notes'), r_com: get('r_com'), r_com_notes: get('r_com_notes'),
+      decision: get('decision'), owner: get('owner'), reasoning: get('reasoning')
+    };
+
+    const outputs = { 
+      oneoff: get('out_oneoff'), 
+      recurring: get('out_recurring'), 
+      revenue: get('out_revenue'),
+      roi_y1: get('out_roi_y1'),
+      roi_y3: get('out_roi_y3')
+    };
+    
+    const numeric = (...els) => els.reduce((sum, el) => sum + (parseFloat(el.value) || 0), 0);
+
+    function compute() {
+      const oneoff = numeric(fields.c_newapi, fields.c_custom, fields.c_setup_std, fields.c_setup_partner, fields.c_test, fields.c_pm);
+      const monthlyRecurring = numeric(fields.c_hosting, fields.c_support, fields.c_license);
+      const annualRecurring = monthlyRecurring * 12;
+      const annualRevenue = parseFloat(fields.revenue.value) || 0;
+
+      outputs.oneoff.textContent = euroFormatter.format(oneoff);
+      outputs.recurring.textContent = euroFormatter.format(annualRecurring);
+      outputs.revenue.textContent = euroFormatter.format(annualRevenue);
+
+      // ROI Calculations
+      const roiY1 = (annualRevenue - oneoff - annualRecurring) / (oneoff + annualRecurring);
+      const roiY3 = ((annualRevenue * 3) - oneoff - (annualRecurring * 3)) / (oneoff + (annualRecurring * 3));
+
+      outputs.roi_y1.textContent = percentFormatter.format(roiY1);
+      outputs.roi_y3.textContent = percentFormatter.format(roiY3);
+
+      return { oneoff, annualRecurring, annualRevenue, roiY1, roiY3 };
+    }
+
+    function gather() {
+      const vals = Object.fromEntries(Object.entries(fields).map(([k, el]) => [k, (el.type === 'checkbox') ? el.checked : el.value]));
+      return { ...vals, computed: compute(), meta: { generatedAt: new Date().toISOString() } };
+    }
+
+    function fill(data) {
+      Object.entries(data || {}).forEach(([k, v]) => {
+        if (!fields[k]) return;
+        if (fields[k].type === 'checkbox') fields[k].checked = !!v;
+        else fields[k].value = v;
+      });
+      compute();
+    }
+
+    get('btnReset').addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear all fields?')) {
+        document.querySelectorAll('#form input, #form textarea, #form select').forEach(el => {
+          if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
+          else el.value = '';
+        });
+        fill({});
+      }
+    });
+
+    document.querySelectorAll('#form input, #form select, #form textarea').forEach(el => {
+      el.addEventListener('input', compute);
+    });
+
+    get('year').textContent = new Date().getFullYear();
+
+    function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+    function nl2br(s) { return String(s).replace(/\n/g, '<br/>'); }
+
+    get('btnGenerateDoc').addEventListener('click', () => {
+      const d = gather();
+      const yes = v => v ? 'Yes' : 'No';
+      const formatCurrency = val => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(parseFloat(val) || 0);
+      const formatPercent = val => new Intl.NumberFormat('de-DE', { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(parseFloat(val) || 0);
+
+      const docStyles = `
+        <style>
+          body { font-family: Calibri, 'Century Gothic', Arial, sans-serif; color: #434343; font-size: 11pt; }
+          h1 { color: #3D434C; font-size: 24pt; margin: 0 0 8pt; }
+          h2 { color: #3D434C; font-size: 16pt; margin: 20pt 0 6pt; border-bottom: 2px solid #00B1E2; padding-bottom: 4pt; }
+          h3 { color: #00B1E2; font-size: 13pt; margin: 12pt 0 6pt; }
+          table { border-collapse: collapse; width: 100%; margin: 12pt 0; }
+          th, td { border: 1px solid #E0E4E8; padding: 8pt; vertical-align: top; text-align: left; }
+          th { background: #F5FAFD; color: #3D434C; font-weight: bold; }
+          .meta { color: #666; font-size: 10pt; }
+          .kpi-summary { margin: 16pt 0; padding: 12pt; background: #F5FAFD; border-left: 4px solid #00B1E2; }
+          .kpi-summary p { margin: 0 0 6pt; }
+        </style>`;
+
+      const html = `<!DOCTYPE html><html><head><meta charset="utf-8">${docStyles}</head><body>
+        <h1>WMS Integration Business Case-Light</h1>
+        <p class="meta">Partner: <strong>${escapeHtml(d.partner)}</strong> · Region: <strong>${escapeHtml(d.region)}</strong> · Go-Live: <strong>${escapeHtml(d.golive)}</strong></p>
+        
+        <h2>1. Integration Overview</h2>
+        <table>
+          <tr><th>Warehouse Partner</th><td>${escapeHtml(d.partner)}</td></tr>
+          <tr><th>Type of Integration</th><td>${escapeHtml(d.integrationType)}</td></tr>
+          <tr><th>Strategic Fit</th><td>${nl2br(escapeHtml(d.fit))}</td></tr>
+        </table>
+
+        <h2>2. Value Assessment</h2>
+        <table>
+          <tr><th>Estimated Annual Revenue Growth</th><td>${formatCurrency(d.revenue)}</td></tr>
+          <tr><th>Volume Growth (orders/month)</th><td>${escapeHtml(d.volume)}</td></tr>
+          <tr><th>Expansion Benefits</th><td>${nl2br(escapeHtml(d.expansion))}</td></tr>
+          <tr><th>Strategic Value</th><td>New region: <strong>${yes(d.sv_region)}</strong>, Key client: <strong>${yes(d.sv_client)}</strong>, Positioning: <strong>${yes(d.sv_position)}</strong>, Portfolio: <strong>${yes(d.sv_portfolio)}</strong></td></tr>
+        </table>
+
+        <h2>3. Cost Assessment</h2>
+        <h3>One-off Costs</h3>
+        <table>
+          <tr><th>New API Development</th><td>${formatCurrency(d.c_newapi)}</td></tr>
+          <tr><th>Customization / Coding</th><td>${formatCurrency(d.c_custom)}</td></tr>
+          <tr><th>Standard API setup</th><td>${formatCurrency(d.c_setup_std)}</td></tr>
+          <tr><th>Partner-specific config.</th><td>${formatCurrency(d.c_setup_partner)}</td></tr>
+          <tr><th>Testing / Certification</th><td>${formatCurrency(d.c_test)}</td></tr>
+          <tr><th>Project Management</th><td>${formatCurrency(d.c_pm)}</td></tr>
+        </table>
+        <h3>Recurring Costs (Monthly)</h3>
+        <table>
+          <tr><th>Hosting & Maintenance</th><td>${formatCurrency(d.c_hosting)}</td></tr>
+          <tr><th>Support & Monitoring</th><td>${formatCurrency(d.c_support)}</td></tr>
+          <tr><th>SLA / License fees</th><td>${formatCurrency(d.c_license)}</td></tr>
+        </table>
+
+        <h2>4. Summary</h2>
+        <div class="kpi-summary">
+          <p><strong>Total One-off Costs:</strong> ${formatCurrency(d.computed.oneoff)}</p>
+          <p><strong>Annual Recurring Costs:</strong> ${formatCurrency(d.computed.annualRecurring)}</p>
+          <p><strong>Expected Annual Revenue:</strong> ${formatCurrency(d.computed.annualRevenue)}</p>
+          <p><strong>ROI after year 1:</strong> ${formatPercent(d.computed.roiY1)}</p>
+          <p><strong>ROI after year 3:</strong> ${formatPercent(d.computed.roiY3)}</p>
+        </div>
+
+        <h2>5. Risks</h2>
+        <table>
+          <tr><th>Technical Risk</th><td><strong>${escapeHtml(d.r_tech)}</strong><br>${nl2br(escapeHtml(d.r_tech_notes))}</td></tr>
+          <tr><th>Dependency Risk</th><td><strong>${escapeHtml(d.r_dep)}</strong><br>${nl2br(escapeHtml(d.r_dep_notes))}</td></tr>
+          <tr><th>Commercial Risk</th><td><strong>${escapeHtml(d.r_com)}</strong><br>${nl2br(escapeHtml(d.r_com_notes))}</td></tr>
+        </table>
+
+        <h2>6. Recommendation</h2>
+        <table>
+          <tr><th>Decision</th><td><strong>${escapeHtml(d.decision)}</strong></td></tr>
+          <tr><th>Owner</th><td>${escapeHtml(d.owner)}</td></tr>
+          <tr><th>Reasoning</th><td>${nl2br(escapeHtml(d.reasoning))}</td></tr>
+        </table>
+        <p class="meta">Generated: ${(new Date()).toLocaleString('de-DE')}</p>
+      </body></html>`;
+
+      const blob = new Blob(['\uFEFF', html], { type: 'application/msword' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const partnerSafe = (d.partner || 'wms-business-case').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+      a.download = `${partnerSafe}.doc`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    compute();
+  </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Salesupply · WMS Integration Business Case-Light</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Calibri, "Century Gothic", Arial, Helvetica, sans-serif;
+    }
+  </style>
+</head>
+<body class="text-gray-800 bg-gradient-to-b from-[#fbfdff] to-[#f5f9fb]">
+
+  <header class="bg-[#00B1E2] text-white p-5 sticky top-0 z-50 shadow-md flex items-center gap-4">
+    <div class="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center font-bold text-xl">S</div>
+    <div>
+      <h1 class="text-xl font-bold tracking-tight">Salesupply — WMS Integration Business Case-Light</h1>
+      <p class="text-sm opacity-90">Front-end only · branded · export to Word</p>
+    </div>
+  </header>
+
+  <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+    <main class="flex flex-col gap-6 items-center justify-center h-[calc(100vh-200px)] text-center">
+      <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-8 space-y-6">
+        <h2 class="text-2xl font-bold text-gray-700 flex items-center justify-center gap-3">
+          <span class="text-blue-500">&#8505;</span> Please Read Before Completing This Form
+        </h2>
+        <div class="prose text-gray-600 max-w-none">
+          <p class="mb-4">
+            <strong>All relevant fields in this business case must be completed by the Business Owner.</strong>
+          </p>
+          <p class="mb-4">
+            Cost-related fields should be filled in after consultation with the BT department to ensure accuracy.
+          </p>
+          <p class="mb-4">
+            Once submitted, the Product Owner will review your business case and assess its value. Your request will then be prioritized in relation to other requests based on its potential impact and strategic importance.
+          </p>
+          <p>
+            NB: The ROI calculation does not include the operational cost of fulfilment services. It reflects only the IT investment versus the expected revenue growth.
+          </p>
+        </div>
+        <a href="businesscaseform.html" class="inline-block bg-[#00B1E2] text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#0099CC] active:translate-y-px transition-all">
+          Open Business Case Form
+        </a>
+      </section>
+    </main>
+    
+    <footer class="text-center text-gray-500 mt-12 py-6">
+      <small>© <span id="year"></span> Salesupply · Business Case-Light tool.</small>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
