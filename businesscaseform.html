@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salesupply · WMS Integration Business Case</title>
+  <title>Salesupply · WMS Integration Business Case-Light</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
@@ -13,17 +13,17 @@
 </head>
 <body class="text-gray-800 bg-gradient-to-b from-[#fbfdff] to-[#f5f9fb]">
 
-<header class="bg-[#00B1E2] text-white p-5 sticky top-0 z-50 shadow-md flex items-center justify-between">
-  <div>
-    <h1 class="text-xl font-bold tracking-tight">Salesupply — WMS Integration Business Case</h1>
-    <p class="text-sm opacity-90">Front-end only ·  · export to Word</p>
-  </div>
-  <img src="logo.jpg" alt="Salesupply Logo" class="h-full">
-</header>
+  <header class="bg-[#00B1E2] text-white p-5 sticky top-0 z-50 shadow-md flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-bold tracking-tight">Salesupply — WMS Integration Business Case</h1>
+      <p class="text-sm opacity-90">Front-end only ·  · export to Word</p>
+    </div>
+    <img src="logo.jpg" alt="Salesupply Logo" class="h-full">
+  </header>
 
   <div class="max-w-6xl mx-auto p-4 sm:p-6">
     <div class="flex justify-end mb-4">
-      <button id="btnReset" class="bg-red-500 text-white font-bold py-2 px-4 rounded-full shadow-lg hover:bg-red-600 active:translate-y-px transition-all">Reset</button>
+      
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -152,11 +152,11 @@
             </div>
             <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-purple-500">
               <div class="text-sm text-gray-600">ROI after year 1</div>
-              <div id="out_roi_y1" class="text-2xl font-extrabold text-gray-800">0%</div>
+              <div id="out_roi_y1" class="text-2xl font-extrabold text-gray-800">- %</div>
             </div>
             <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-purple-500">
               <div class="text-sm text-gray-600">ROI after year 3</div>
-              <div id="out_roi_y3" class="text-2xl font-extrabold text-gray-800">0%</div>
+              <div id="out_roi_y3" class="text-2xl font-extrabold text-gray-800">- %</div>
             </div>
           </div>
         </div>
@@ -204,11 +204,24 @@
       outputs.revenue.textContent = euroFormatter.format(annualRevenue);
 
       // ROI Calculations
-      const roiY1 = (annualRevenue - oneoff - annualRecurring) / (oneoff + annualRecurring);
-      const roiY3 = ((annualRevenue * 3) - oneoff - (annualRecurring * 3)) / (oneoff + (annualRecurring * 3));
+      const denominatorY1 = oneoff + annualRecurring;
+      const roiY1 = (annualRevenue - oneoff - annualRecurring) / denominatorY1;
+      
+      const denominatorY3 = oneoff + (annualRecurring * 3);
+      const roiY3 = ((annualRevenue * 3) - oneoff - (annualRecurring * 3)) / denominatorY3;
+      
+      // Conditional display for ROI
+      if (denominatorY1 !== 0) {
+        outputs.roi_y1.textContent = percentFormatter.format(roiY1);
+      } else {
+        outputs.roi_y1.textContent = "- %";
+      }
 
-      outputs.roi_y1.textContent = percentFormatter.format(roiY1);
-      outputs.roi_y3.textContent = percentFormatter.format(roiY3);
+      if (denominatorY3 !== 0) {
+        outputs.roi_y3.textContent = percentFormatter.format(roiY3);
+      } else {
+        outputs.roi_y3.textContent = "- %";
+      }
 
       return { oneoff, annualRecurring, annualRevenue, roiY1, roiY3 };
     }
@@ -227,15 +240,7 @@
       compute();
     }
 
-    get('btnReset').addEventListener('click', () => {
-      if (confirm('Are you sure you want to clear all fields?')) {
-        document.querySelectorAll('#form input, #form textarea, #form select').forEach(el => {
-          if (el.type === 'checkbox' || el.type === 'radio') el.checked = false;
-          else el.value = '';
-        });
-        fill({});
-      }
-    });
+    // The reset button and its associated event listener have been removed.
 
     document.querySelectorAll('#form input, #form select, #form textarea').forEach(el => {
       el.addEventListener('input', compute);
