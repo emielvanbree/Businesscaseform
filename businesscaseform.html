@@ -3,12 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salesupply · WMS Integration Business Case-Light</title>
+  <title>Salesupply · WMS Integration Business Case</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Chosen Palette: Salesupply (Primary Blue, Grays) -->
-  <!-- Application Structure Plan: A two-column responsive layout with a main form on the left and a sticky summary sidebar on the right. This structure is chosen for its clarity in separating data input from calculated output, providing the user with immediate feedback on their entries. The flow is a straightforward, top-to-bottom form filling process, culminating in an export action. -->
-  <!-- Visualization & Content Choices: The primary "visualization" is a set of dynamic KPI text fields in the summary. This is an "Inform" goal. The method is direct text update via JavaScript. The interaction is real-time calculation on user input. This is justified as it provides the most direct and immediate feedback for a financial calculation tool. No charting libraries are needed. -->
-  <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
   <style>
     body {
       font-family: Calibri, "Century Gothic", Arial, Helvetica, sans-serif;
@@ -17,13 +13,13 @@
 </head>
 <body class="text-gray-800 bg-gradient-to-b from-[#fbfdff] to-[#f5f9fb]">
 
-  <header class="bg-[#00B1E2] text-white p-5 sticky top-0 z-50 shadow-md flex items-center gap-4">
-    <div class="w-10 h-10 rounded-full border-2 border-white flex items-center justify-center font-bold text-xl">S</div>
-    <div>
-      <h1 class="text-xl font-bold tracking-tight">Salesupply — WMS Integration Business Case</h1>
-      <p class="text-sm opacity-90">Front-end only ·  · export to Word</p>
-    </div>
-  </header>
+<header class="bg-[#00B1E2] text-white p-5 sticky top-0 z-50 shadow-md flex items-center justify-between">
+  <div>
+    <h1 class="text-xl font-bold tracking-tight">Salesupply — WMS Integration Business Case</h1>
+    <p class="text-sm opacity-90">Front-end only ·  · export to Word</p>
+  </div>
+  <img src="logo.jpg" alt="Salesupply Logo" class="h-full">
+</header>
 
   <div class="max-w-6xl mx-auto p-4 sm:p-6">
     <div class="flex justify-end mb-4">
@@ -168,7 +164,7 @@
     </div>
     
     <footer class="text-center text-gray-500 mt-12 py-6">
-      <small>© <span id="year"></span> Salesupply · Business Case-Light tool.</small>
+      <small>© <span id="year"></span> Salesupply · Business Case tool.</small>
     </footer>
   </div>
 
@@ -271,7 +267,7 @@
         </style>`;
 
       const html = `<!DOCTYPE html><html><head><meta charset="utf-8">${docStyles}</head><body>
-        <h1>WMS Integration Business Case-Light</h1>
+        <h1>WMS Integration Business Case</h1>
         <p class="meta">Partner: <strong>${escapeHtml(d.partner)}</strong> · Region: <strong>${escapeHtml(d.region)}</strong> · Go-Live: <strong>${escapeHtml(d.golive)}</strong></p>
         
         <h2>1. Integration Overview</h2>
@@ -347,4 +343,3 @@
   </script>
 </body>
 </html>
-
