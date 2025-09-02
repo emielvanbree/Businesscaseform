@@ -137,12 +137,16 @@
                     <h2 class="text-lg font-bold text-gray-700 mb-4">Cost vs. Value Summary</h2>
                     <div class="space-y-4">
                         <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-[#00B1E2]">
-                            <div class="text-sm text-gray-600">Total One-off Costs (€)</div>
+                            <div class="text-sm text-gray-600">Total One-off Technology Costs (€)</div>
                             <div id="out_oneoff" class="text-xl font-extrabold text-gray-800">€ 0</div>
                         </div>
                         <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-amber-500">
-                            <div class="text-sm text-gray-600">Annual Recurring Costs (€)</div>
+                            <div class="text-sm text-gray-600">Annual Recurring Technology Costs (€)</div>
                             <div id="out_recurring" class="text-xl font-extrabold text-gray-800">€ 0</div>
+                        </div>
+                        <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-rose-500">
+                            <div class="text-sm text-gray-600">Annual Opex (€)</div>
+                            <div id="out_opex" class="text-xl font-extrabold text-gray-800">€ 0</div>
                         </div>
                         <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-green-500">
                             <div class="text-sm text-gray-600">Expected Annual Revenue (€)</div>
@@ -184,6 +188,7 @@
         const outputs = { 
             oneoff: get('out_oneoff'), 
             recurring: get('out_recurring'), 
+            opex: get('out_opex'),
             revenue: get('out_revenue'),
             roi_y1: get('out_roi_y1'),
             roi_y3: get('out_roi_y3')
@@ -196,16 +201,20 @@
             const monthlyRecurring = numeric(fields.c_hosting, fields.c_support, fields.c_license);
             const annualRecurring = monthlyRecurring * 12;
             const annualRevenue = parseFloat(fields.revenue.value) || 0;
+            const annualOpex = annualRevenue * 0.85;
 
             outputs.oneoff.textContent = euroFormatter.format(oneoff);
             outputs.recurring.textContent = euroFormatter.format(annualRecurring);
+            outputs.opex.textContent = euroFormatter.format(annualOpex);
             outputs.revenue.textContent = euroFormatter.format(annualRevenue);
 
-            const denominatorY1 = oneoff + annualRecurring;
-            const roiY1 = (annualRevenue - oneoff - annualRecurring) / denominatorY1;
+            const totalCostsY1 = oneoff + annualRecurring + annualOpex;
+            const denominatorY1 = totalCostsY1;
+            const roiY1 = (annualRevenue - totalCostsY1) / denominatorY1;
             
-            const denominatorY3 = oneoff + (annualRecurring * 3);
-            const roiY3 = ((annualRevenue * 3) - oneoff - (annualRecurring * 3)) / denominatorY3;
+            const totalCostsY3 = oneoff + (annualRecurring * 3) + (annualOpex * 3);
+            const denominatorY3 = totalCostsY3;
+            const roiY3 = ((annualRevenue * 3) - totalCostsY3) / denominatorY3;
             
             if (denominatorY1 !== 0) {
                 outputs.roi_y1.textContent = percentFormatter.format(roiY1);
@@ -219,7 +228,7 @@
                 outputs.roi_y3.textContent = "- %";
             }
 
-            return { oneoff, annualRecurring, annualRevenue, roiY1, roiY3 };
+            return { oneoff, annualRecurring, annualOpex, annualRevenue, roiY1, roiY3 };
         }
 
         function gather() {
@@ -303,8 +312,9 @@
 
                 <h2>4. Summary</h2>
                 <div class="kpi-summary">
-                    <p><strong>Total One-off Costs:</strong> ${formatCurrency(d.computed.oneoff)}</p>
-                    <p><strong>Annual Recurring Costs:</strong> ${formatCurrency(d.computed.annualRecurring)}</p>
+                    <p><strong>Total One-off Technology Costs:</strong> ${formatCurrency(d.computed.oneoff)}</p>
+                    <p><strong>Annual Recurring Technology Costs:</strong> ${formatCurrency(d.computed.annualRecurring)}</p>
+                    <p><strong>Annual Opex:</strong> ${formatCurrency(d.computed.annualOpex)}</p>
                     <p><strong>Expected Annual Revenue:</strong> ${formatCurrency(d.computed.annualRevenue)}</p>
                     <p><strong>ROI after year 1:</strong> ${formatPercent(d.computed.roiY1)}</p>
                     <p><strong>ROI after year 3:</strong> ${formatPercent(d.computed.roiY3)}</p>
@@ -379,8 +389,9 @@
                 ['SLA / License fees (€/mo):', parseFloat(c_license) || 0],
                 [],
                 ['4. Financial Summary'],
-                ['Total One-off Costs (€):', computed.oneoff],
-                ['Annual Recurring Costs (€):', computed.annualRecurring],
+                ['Total One-off Technology Costs (€):', computed.oneoff],
+                ['Annual Recurring Technology Costs (€):', computed.annualRecurring],
+                ['Annual Opex (€):', computed.annualOpex],
                 ['Expected Annual Revenue (€):', computed.annualRevenue],
                 ['ROI after year 1:', computed.roiY1],
                 ['ROI after year 3:', computed.roiY3],
@@ -407,7 +418,7 @@
             ws['A1'].s = { font: { sz: 16, bold: true, color: { rgb: "00B1E2" } } };
             
             // Bold headings
-            const boldCells = ['A3', 'A10', 'A19', 'A20', 'A27', 'A32', 'A40', 'A48'];
+            const boldCells = ['A3', 'A10', 'A19', 'A20', 'A27', 'A32', 'A33', 'A41', 'A49'];
             boldCells.forEach(cell => {
                 if (ws[cell]) {
                     ws[cell].s = { font: { bold: true } };
@@ -426,11 +437,12 @@
             ws['B29'].t = 'n'; // Hosting
             ws['B30'].t = 'n'; // Support
             ws['B31'].t = 'n'; // License
-            ws['B34'].t = 'n'; ws['B34'].z = '0.00" €"';
-            ws['B35'].t = 'n'; ws['B35'].z = '0.00" €"';
-            ws['B36'].t = 'n'; ws['B36'].z = '0.00" €"';
-            ws['B37'].t = 'n'; ws['B37'].z = '0.00%';
-            ws['B38'].t = 'n'; ws['B38'].z = '0.00%';
+            ws['B34'].t = 'n'; ws['B34'].z = '0.00" €"'; // oneoff
+            ws['B35'].t = 'n'; ws['B35'].z = '0.00" €"'; // recurring
+            ws['B36'].t = 'n'; ws['B36'].z = '0.00" €"'; // opex
+            ws['B37'].t = 'n'; ws['B37'].z = '0.00" €"'; // revenue
+            ws['B38'].t = 'n'; ws['B38'].z = '0.00%'; // ROI y1
+            ws['B39'].t = 'n'; ws['B39'].z = '0.00%'; // ROI y3
             
             // Set column widths for better readability
             ws['!cols'] = [{ wch: 30 }, { wch: 50 }];
