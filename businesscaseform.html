@@ -403,7 +403,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            const partnerSafe = (d.partner || 'wms-business-case').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+            const partnerSafe = (d.partner || 'fulfilment business-case').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
             a.download = `${partnerSafe}.doc`;
             document.body.appendChild(a);
             a.click();
@@ -425,7 +425,7 @@
                 ['Project Name:', partner],
                 ['Type of work:', integrationType],
                 ['Expected Go-Live Date (if applicable):', golive],
-                ['Link ticket request CU (?):', ticket],
+                ['Link ticket request ClickUp:', ticket],
                 ['Which problem does the project solve?:', problem],
                 ['Alternative solutions:', alternatives],
                 [],
@@ -524,3 +524,4 @@
     </script>
 </body>
 </html>
+
