@@ -47,7 +47,7 @@
                             <input id="golive" type="date" class="w-full p-3 border border-gray-300 rounded-lg">
                         </div>
                         <div>
-                            <label for="ticket" class="block text-sm font-bold text-gray-700 mb-1">Link ticket request ClickUp</label>
+                            <label for="ticket" class="block text-sm font-bold text-gray-700 mb-1">Link ticket request CU (?)</label>
                             <input id="ticket" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., CU-12345">
                         </div>
                     </div>
@@ -141,26 +141,7 @@
                 </section>
 
                 <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-4 space-y-4">
-                    <h2 class="text-lg font-bold text-gray-700">4. Risk Assessment</h2>
-                    <p class="text-sm text-gray-500">What is the effect? (currently no influence in calculation)</p>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="space-y-1"><label for="r_tech" class="block text-sm font-bold text-gray-700">Technical Risk</label>
-                            <select id="r_tech" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select>
-                            <textarea id="r_tech_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="How clear is the picture after Technical investigation? How well will we be able to work with other systems?"></textarea>
-                        </div>
-                        <div class="space-y-1"><label for="r_dep" class="block text-sm font-bold text-gray-700">Dependency Risk</label>
-                            <select id="r_dep" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select>
-                            <textarea id="r_dep_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="How much can we do ourselves? How much are partners involved? If known, how reliable are the partners?"></textarea>
-                        </div>
-                        <div class="space-y-1"><label for="r_com" class="block text-sm font-bold text-gray-700">Commercial Risk</label>
-                            <select id="r_com" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select>
-                            <textarea id="r_com_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="How sure is the 'Estimated Annual Revenue Growth'?"></textarea>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-4 space-y-4">
-                    <h2 class="text-lg font-bold text-gray-700">5. Recommendation</h2>
+                    <h2 class="text-lg font-bold text-gray-700">4. Recommendation</h2>
                     <p class="text-sm text-gray-500">Note: This is the recommendation of the BO (Business Owner) based on the data, but this does not mean the recommendation of the PO (Product Owner) will be the same.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div><label for="decision" class="block text-sm font-bold text-gray-700 mb-1">Go / No-Go</label>
@@ -234,7 +215,6 @@
             c_due_diligence: get('c_due_diligence'), c_dev: get('c_dev'), c_other_dev: get('c_other_dev'),
             c_po_pm: get('c_po_pm'), c_testing: get('c_testing'), c_docs: get('c_docs'), 
             c_hosting: get('c_hosting'), c_support: get('c_support'), c_license: get('c_license'), c_other_recurring: get('c_other_recurring'),
-            r_tech: get('r_tech'), r_tech_notes: get('r_tech_notes'), r_dep: get('r_dep'), r_dep_notes: get('r_dep_notes'), r_com: get('r_com'), r_com_notes: get('r_com_notes'),
             decision: get('decision'), owner: get('owner'), reasoning: get('reasoning')
         };
 
@@ -382,14 +362,7 @@
                     <p><strong>ROI after year 3:</strong> ${formatPercent(d.computed.roiY3)}</p>
                 </div>
 
-                <h2>5. Risk Assessment</h2>
-                <table>
-                    <tr><th>Technical Risk</th><td><strong>${escapeHtml(d.r_tech)}</strong><br>${nl2br(escapeHtml(d.r_tech_notes))}</td></tr>
-                    <tr><th>Dependency Risk</th><td><strong>${escapeHtml(d.r_dep)}</strong><br>${nl2br(escapeHtml(d.r_dep_notes))}</td></tr>
-                    <tr><th>Commercial Risk</th><td><strong>${escapeHtml(d.r_com)}</strong><br>${nl2br(escapeHtml(d.r_com_notes))}</td></tr>
-                </table>
-
-                <h2>6. Recommendation</h2>
+                <h2>5. Recommendation</h2>
                 <table>
                     <tr><th>Decision</th><td><strong>${escapeHtml(d.decision)}</strong></td></tr>
                     <tr><th>Owner</th><td>${escapeHtml(d.owner)}</td></tr>
@@ -403,7 +376,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            const partnerSafe = (d.partner || 'fulfilment business-case').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+            const partnerSafe = (d.partner || 'wms-business-case').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
             a.download = `${partnerSafe}.doc`;
             document.body.appendChild(a);
             a.click();
@@ -416,7 +389,7 @@
             const { partner, integrationType, golive, ticket, problem, alternatives, revenue, volume, nonMonetaryBenefits,
                     sv_region, sv_region_notes, sv_client, sv_client_notes, sv_position, sv_position_notes, sv_portfolio, sv_portfolio_notes,
                     c_due_diligence, c_dev, c_other_dev, c_po_pm, c_testing, c_docs, c_hosting, c_support, c_license, c_other_recurring,
-                    r_tech, r_tech_notes, r_dep, r_dep_notes, r_com, r_com_notes, decision, owner, reasoning, computed } = data;
+                    decision, owner, reasoning, computed } = data;
 
             const ws_data = [
                 ['Fulfilment Business Case'],
@@ -425,7 +398,7 @@
                 ['Project Name:', partner],
                 ['Type of work:', integrationType],
                 ['Expected Go-Live Date (if applicable):', golive],
-                ['Link ticket request ClickUp:', ticket],
+                ['Link ticket request CU (?):', ticket],
                 ['Which problem does the project solve?:', problem],
                 ['Alternative solutions:', alternatives],
                 [],
@@ -466,15 +439,7 @@
                 ['ROI after year 1:', computed.roiY1],
                 ['ROI after year 3:', computed.roiY3],
                 [],
-                ['5. Risk Assessment'],
-                ['Technical Risk:', r_tech],
-                ['Notes:', r_tech_notes],
-                ['Dependency Risk:', r_dep],
-                ['Notes:', r_dep_notes],
-                ['Commercial Risk:', r_com],
-                ['Notes:', r_com_notes],
-                [],
-                ['6. Recommendation'],
+                ['5. Recommendation'],
                 ['Decision:', decision],
                 ['Business Case Owner:', owner],
                 ['Reasoning:', reasoning],
@@ -485,7 +450,7 @@
             ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
             ws['A1'].s = { font: { sz: 16, bold: true, color: { rgb: "00B1E2" } } };
             
-            const boldCells = ['A3', 'A10', 'A14', 'A24', 'A25', 'A29', 'A33', 'A40', 'A47', 'A55'];
+            const boldCells = ['A3', 'A10', 'A14', 'A24', 'A25', 'A29', 'A33', 'A40', 'A47'];
             boldCells.forEach(cell => {
                 if (ws[cell]) {
                     ws[cell].s = { font: { bold: true } };
@@ -524,4 +489,3 @@
     </script>
 </body>
 </html>
-
