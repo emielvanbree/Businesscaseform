@@ -31,29 +31,33 @@
                     <p class="text-sm text-gray-500">Summarize the basic context of this warehouse integration.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label for="partner" class="block text-sm font-bold text-gray-700 mb-1">Warehouse Partner</label>
+                            <label for="partner" class="block text-sm font-bold text-gray-700 mb-1">Project Name</label>
                             <input id="partner" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., DHL Supply Chain — Rheinberg">
                         </div>
                         <div>
-                            <label for="region" class="block text-sm font-bold text-gray-700 mb-1">Country/Region</label>
-                            <input id="region" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., DE / DACH">
-                        </div>
-                        <div>
-                            <label for="integrationType" class="block text-sm font-bold text-gray-700 mb-1">Type of Integration</label>
+                            <label for="integrationType" class="block text-sm font-bold text-gray-700 mb-1">Type of work</label>
                             <select id="integrationType" class="w-full p-3 border border-gray-300 rounded-lg bg-white">
-                                <option>New API development</option>
-                                <option>Standard API configuration</option>
-                                <option>One-off custom solution</option>
+                                <option>New Integration</option>
+                                <option>New, Custom, one-off Integration</option>
+                                <option>Workflow addition/change</option>
                             </select>
                         </div>
                         <div>
-                            <label for="golive" class="block text-sm font-bold text-gray-700 mb-1">Expected Go-Live Date</label>
+                            <label for="golive" class="block text-sm font-bold text-gray-700 mb-1">Expected Go-Live Date (if applicable)</label>
                             <input id="golive" type="date" class="w-full p-3 border border-gray-300 rounded-lg">
+                        </div>
+                        <div>
+                            <label for="ticket" class="block text-sm font-bold text-gray-700 mb-1">Link ticket request ClickUp</label>
+                            <input id="ticket" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="e.g., CU-12345">
                         </div>
                     </div>
                     <div>
-                        <label for="fit" class="block text-sm font-bold text-gray-700 mb-1">Describe the required integration briefly</label>
-                        <textarea id="fit" class="w-full p-3 border border-gray-300 rounded-lg min-h-[90px]" placeholder="Outline systems, processes, and special requirements."></textarea>
+                        <label for="problem" class="block text-sm font-bold text-gray-700 mb-1">Which problem does the project solve?</label>
+                        <textarea id="problem" class="w-full p-3 border border-gray-300 rounded-lg min-h-[90px]" placeholder="Outline the problem this project is intended to solve."></textarea>
+                    </div>
+                    <div>
+                        <label for="alternatives" class="block text-sm font-bold text-gray-700 mb-1">Alternative solutions to solve the problem?</label>
+                        <textarea id="alternatives" class="w-full p-3 border border-gray-300 rounded-lg min-h-[90px]" placeholder="List and briefly describe alternative solutions considered."></textarea>
                     </div>
                 </section>
 
@@ -65,19 +69,49 @@
                             <input id="revenue" type="number" class="w-full p-3 border border-gray-300 rounded-lg text-right" placeholder="0" min="0" step="0.01">
                         </div>
                         <div>
-                            <label for="volume" class="block text-sm font-bold text-gray-700 mb-1">Volume Growth (Orders / Month)</label>
+                            <label for="volume" class="block text-sm font-bold text-gray-700 mb-1">Volume / Growth (Orders / Month) (if applicable)</label>
                             <input id="volume" type="number" class="w-full p-3 border border-gray-300 rounded-lg text-right" placeholder="0" min="0" step="1">
                         </div>
                     </div>
                     <div>
-                        <label for="expansion" class="block text-sm font-bold text-gray-700 mb-1">Customer / Market Expansion Benefits</label>
-                        <textarea id="expansion" class="w-full p-3 border border-gray-300 rounded-lg min-h-[90px]" placeholder="New region access, strategic logo client..."></textarea>
+                        <label for="nonMonetaryBenefits" class="block text-sm font-bold text-gray-700 mb-1">Other non monetary benefits</label>
+                        <textarea id="nonMonetaryBenefits" class="w-full p-3 border border-gray-300 rounded-lg min-h-[90px]" placeholder="List other benefits like brand reputation, team knowledge gain, etc."></textarea>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
-                        <label class="flex items-center gap-2 p-2 border rounded-full bg-white cursor-pointer hover:bg-gray-50"><input type="checkbox" id="sv_region"> New region access</label>
-                        <label class="flex items-center gap-2 p-2 border rounded-full bg-white cursor-pointer hover:bg-gray-50"><input type="checkbox" id="sv_client"> Key client requirement</label>
-                        <label class="flex items-center gap-2 p-2 border rounded-full bg-white cursor-pointer hover:bg-gray-50"><input type="checkbox" id="sv_position"> Competitive positioning</label>
-                        <label class="flex items-center gap-2 p-2 border rounded-full bg-white cursor-pointer hover:bg-gray-50"><input type="checkbox" id="sv_portfolio"> Service portfolio improvement</label>
+
+                    <div class="space-y-4">
+                        <label class="block text-sm font-bold text-gray-700 mb-1">Strategic Value (check all that apply)</label>
+                        
+                        <div class="flex items-start gap-2 p-2 border border-gray-200 rounded-lg bg-white">
+                            <input type="checkbox" id="sv_region" class="mt-1">
+                            <div class="flex-1">
+                                <label for="sv_region" class="block text-sm font-bold text-gray-700 cursor-pointer">New region access</label>
+                                <textarea id="sv_region_notes" class="w-full p-2 border rounded-lg mt-1 text-sm" placeholder="Reason for selecting this option..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-2 p-2 border border-gray-200 rounded-lg bg-white">
+                            <input type="checkbox" id="sv_client" class="mt-1">
+                            <div class="flex-1">
+                                <label for="sv_client" class="block text-sm font-bold text-gray-700 cursor-pointer">Key client requirement</label>
+                                <textarea id="sv_client_notes" class="w-full p-2 border rounded-lg mt-1 text-sm" placeholder="Reason for selecting this option..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-2 p-2 border border-gray-200 rounded-lg bg-white">
+                            <input type="checkbox" id="sv_position" class="mt-1">
+                            <div class="flex-1">
+                                <label for="sv_position" class="block text-sm font-bold text-gray-700 cursor-pointer">Competitive positioning</label>
+                                <textarea id="sv_position_notes" class="w-full p-2 border rounded-lg mt-1 text-sm" placeholder="Reason for selecting this option..."></textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-2 p-2 border border-gray-200 rounded-lg bg-white">
+                            <input type="checkbox" id="sv_portfolio" class="mt-1">
+                            <div class="flex-1">
+                                <label for="sv_portfolio" class="block text-sm font-bold text-gray-700 cursor-pointer">Service portfolio improvement</label>
+                                <textarea id="sv_portfolio_notes" class="w-full p-2 border rounded-lg mt-1 text-sm" placeholder="Reason for selecting this option..."></textarea>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -86,44 +120,59 @@
                     <div class="space-y-4">
                         <p class="font-bold text-gray-600 border-t pt-4">3.1 Development Costs (one-off)</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label for="c_newapi" class="block text-sm font-bold text-gray-700 mb-1">New API Development (€)</label><input id="c_newapi" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
-                            <div><label for="c_custom" class="block text-sm font-bold text-gray-700 mb-1">Customization / Coding (€)</label><input id="c_custom" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_due_diligence" class="block text-sm font-bold text-gray-700 mb-1">Due Diligence Check & Technical Investigation time (€)</label><input id="c_due_diligence" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_dev" class="block text-sm font-bold text-gray-700 mb-1">Development time/costs (€)</label><input id="c_dev" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_other_dev" class="block text-sm font-bold text-gray-700 mb-1">Other (external) development costs (€)</label><input id="c_other_dev" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
                         </div>
-                        <p class="font-bold text-gray-600 border-t pt-4">3.2 Setup & Configuration (one-off)</p>
+                        <p class="font-bold text-gray-600 border-t pt-4">3.2 Other one-off costs</p>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label for="c_setup_std" class="block text-sm font-bold text-gray-700 mb-1">Standard API setup (€)</label><input id="c_setup_std" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
-                            <div><label for="c_setup_partner" class="block text-sm font-bold text-gray-700 mb-1">Partner-specific configuration (€)</label><input id="c_setup_partner" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_po_pm" class="block text-sm font-bold text-gray-700 mb-1">PO/PM time/costs (€)</label><input id="c_po_pm" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_testing" class="block text-sm font-bold text-gray-700 mb-1">Testing/certification time/costs (€)</label><input id="c_testing" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_docs" class="block text-sm font-bold text-gray-700 mb-1">Documentation time/costs (€)</label><input id="c_docs" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
                         </div>
-                        <p class="font-bold text-gray-600 border-t pt-4">3.3 Other One-off Costs</p>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label for="c_test" class="block text-sm font-bold text-gray-700 mb-1">Testing / Certification (€)</label><input id="c_test" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
-                            <div><label for="c_pm" class="block text-sm font-bold text-gray-700 mb-1">Project Management / Onboarding (€)</label><input id="c_pm" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
-                        </div>
-                        <p class="font-bold text-gray-600 border-t pt-4">3.4 Recurring Operating Costs</p>
+                        <p class="font-bold text-gray-600 border-t pt-4">3.3 Recurring Operating Costs</p>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div><label for="c_hosting" class="block text-sm font-bold text-gray-700 mb-1">Hosting & Maintenance (€/mo)</label><input id="c_hosting" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
-                            <div><label for="c_support" class="block text-sm font-bold text-gray-700 mb-1">Support & Monitoring (€/mo)</label><input id="c_support" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
-                            <div><label for="c_license" class="block text-sm font-bold text-gray-700 mb-1">SLA / License fees (€/mo)</label><input id="c_license" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_hosting" class="block text-sm font-bold text-gray-700 mb-1">Hosting Maintenance (€/mo) (if applicable)</label><input id="c_hosting" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_support" class="block text-sm font-bold text-gray-700 mb-1">Support & Monitoring (€/mo) (if applicable)</label><input id="c_support" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_license" class="block text-sm font-bold text-gray-700 mb-1">SLA/License fees (€/mo) (if applicable)</label><input id="c_license" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
+                            <div><label for="c_other_recurring" class="block text-sm font-bold text-gray-700 mb-1">Other costs (from outcome talks with finance) (€/mo)</label><input id="c_other_recurring" type="number" class="w-full p-3 border rounded-lg text-right" placeholder="0" min="0" step="0.01"></div>
                         </div>
                     </div>
                 </section>
 
                 <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-4 space-y-4">
                     <h2 class="text-lg font-bold text-gray-700">4. Risk Assessment</h2>
+                    <p class="text-sm text-gray-500">What is the effect? (currently no influence in calculation)</p>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="space-y-1"><label for="r_tech" class="block text-sm font-bold text-gray-700">Technical Risk</label><select id="r_tech" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select><textarea id="r_tech_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="Untested WMS API..."></textarea></div>
-                        <div class="space-y-1"><label for="r_dep" class="block text-sm font-bold text-gray-700">Dependency Risk</label><select id="r_dep" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select><textarea id="r_dep_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="Reliance on partner..."></textarea></div>
-                        <div class="space-y-1"><label for="r_com" class="block text-sm font-bold text-gray-700">Commercial Risk</label><select id="r_com" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select><textarea id="r_com_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="Demand uncertainty..."></textarea></div>
+                        <div class="space-y-1"><label for="r_tech" class="block text-sm font-bold text-gray-700">Technical Risk</label>
+                            <select id="r_tech" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select>
+                            <textarea id="r_tech_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="How clear is the picture after Technical investigation? How well will we be able to work with other systems?"></textarea>
+                        </div>
+                        <div class="space-y-1"><label for="r_dep" class="block text-sm font-bold text-gray-700">Dependency Risk</label>
+                            <select id="r_dep" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select>
+                            <textarea id="r_dep_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="How much can we do ourselves? How much are partners involved? If known, how reliable are the partners?"></textarea>
+                        </div>
+                        <div class="space-y-1"><label for="r_com" class="block text-sm font-bold text-gray-700">Commercial Risk</label>
+                            <select id="r_com" class="w-full p-3 border rounded-lg bg-white"><option>Low</option><option>Medium</option><option>High</option></select>
+                            <textarea id="r_com_notes" class="w-full p-3 border rounded-lg mt-1" placeholder="How sure is the 'Estimated Annual Revenue Growth'?"></textarea>
+                        </div>
                     </div>
                 </section>
 
                 <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-4 space-y-4">
                     <h2 class="text-lg font-bold text-gray-700">5. Recommendation</h2>
+                    <p class="text-sm text-gray-500">Note: This is the recommendation of the BO (Business Owner) based on the data, but this does not mean the recommendation of the PO (Product Owner) will be the same.</p>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label for="decision" class="block text-sm font-bold text-gray-700 mb-1">Go / No-Go</label><select id="decision" class="w-full p-3 border rounded-lg bg-white"><option>Recommended</option><option>Not Recommended</option><option>On Hold</option></select></div>
-                        <div><label for="owner" class="block text-sm font-bold text-gray-700 mb-1">Business Case Owner</label><input id="owner" class="w-full p-3 border rounded-lg" placeholder="Your name / team"></div>
+                        <div><label for="decision" class="block text-sm font-bold text-gray-700 mb-1">Go / No-Go</label>
+                            <select id="decision" class="w-full p-3 border rounded-lg bg-white"><option>Recommended</option><option>Not Recommended</option><option>On Hold</option></select>
+                        </div>
+                        <div><label for="owner" class="block text-sm font-bold text-gray-700 mb-1">Business Case Owner</label>
+                            <input id="owner" class="w-full p-3 border rounded-lg" placeholder="Your name / team">
+                        </div>
                     </div>
-                    <div><label for="reasoning" class="block text-sm font-bold text-gray-700 mb-1">Reasoning (short)</label><textarea id="reasoning" class="w-full p-3 border rounded-lg min-h-[90px]" placeholder="Value vs. cost trade-off..."></textarea></div>
+                    <div><label for="reasoning" class="block text-sm font-bold text-gray-700 mb-1">Reasoning (short)</label>
+                        <textarea id="reasoning" class="w-full p-3 border rounded-lg min-h-[90px]" placeholder="Value vs. cost trade-off..."></textarea>
+                    </div>
                 </section>
 
                 <section class="bg-white border border-gray-200 rounded-2xl shadow-lg p-4 flex justify-between gap-4">
@@ -134,7 +183,7 @@
 
             <aside class="lg:col-span-1">
                 <div class="sticky top-24 bg-white border border-gray-200 rounded-2xl shadow-lg p-4">
-                    <h2 class="text-lg font-bold text-gray-700 mb-4">Cost vs. Value Summary</h2>
+                    <h2 class="text-lg font-bold text-gray-700 mb-4">Monetary Costs vs. Benefits summary</h2>
                     <div class="space-y-4">
                         <div class="bg-slate-100 p-4 rounded-lg border-l-4 border-[#00B1E2]">
                             <div class="text-sm text-gray-600">Total One-off Technology Costs (€)</div>
@@ -176,11 +225,15 @@
 
         const get = id => document.getElementById(id);
         const fields = {
-            partner: get('partner'), region: get('region'), integrationType: get('integrationType'), golive: get('golive'), fit: get('fit'),
-            revenue: get('revenue'), volume: get('volume'), expansion: get('expansion'),
-            sv_region: get('sv_region'), sv_client: get('sv_client'), sv_position: get('sv_position'), sv_portfolio: get('sv_portfolio'),
-            c_newapi: get('c_newapi'), c_custom: get('c_custom'), c_setup_std: get('c_setup_std'), c_setup_partner: get('c_setup_partner'),
-            c_test: get('c_test'), c_pm: get('c_pm'), c_hosting: get('c_hosting'), c_support: get('c_support'), c_license: get('c_license'),
+            partner: get('partner'), integrationType: get('integrationType'), golive: get('golive'), ticket: get('ticket'), problem: get('problem'), alternatives: get('alternatives'),
+            revenue: get('revenue'), volume: get('volume'), nonMonetaryBenefits: get('nonMonetaryBenefits'),
+            sv_region: get('sv_region'), sv_region_notes: get('sv_region_notes'), 
+            sv_client: get('sv_client'), sv_client_notes: get('sv_client_notes'), 
+            sv_position: get('sv_position'), sv_position_notes: get('sv_position_notes'), 
+            sv_portfolio: get('sv_portfolio'), sv_portfolio_notes: get('sv_portfolio_notes'),
+            c_due_diligence: get('c_due_diligence'), c_dev: get('c_dev'), c_other_dev: get('c_other_dev'),
+            c_po_pm: get('c_po_pm'), c_testing: get('c_testing'), c_docs: get('c_docs'), 
+            c_hosting: get('c_hosting'), c_support: get('c_support'), c_license: get('c_license'), c_other_recurring: get('c_other_recurring'),
             r_tech: get('r_tech'), r_tech_notes: get('r_tech_notes'), r_dep: get('r_dep'), r_dep_notes: get('r_dep_notes'), r_com: get('r_com'), r_com_notes: get('r_com_notes'),
             decision: get('decision'), owner: get('owner'), reasoning: get('reasoning')
         };
@@ -197,8 +250,8 @@
         const numeric = (...els) => els.reduce((sum, el) => sum + (parseFloat(el.value) || 0), 0);
 
         function compute() {
-            const oneoff = numeric(fields.c_newapi, fields.c_custom, fields.c_setup_std, fields.c_setup_partner, fields.c_test, fields.c_pm);
-            const monthlyRecurring = numeric(fields.c_hosting, fields.c_support, fields.c_license);
+            const oneoff = numeric(fields.c_due_diligence, fields.c_dev, fields.c_other_dev, fields.c_po_pm, fields.c_testing, fields.c_docs);
+            const monthlyRecurring = numeric(fields.c_hosting, fields.c_support, fields.c_license, fields.c_other_recurring);
             const annualRecurring = monthlyRecurring * 12;
             const annualRevenue = parseFloat(fields.revenue.value) || 0;
             const annualOpex = annualRevenue * 0.85;
@@ -276,41 +329,50 @@
 
             const html = `<!DOCTYPE html><html><head><meta charset="utf-8">${docStyles}</head><body>
                 <h1>Fulfilment Business Case</h1>
-                <p class="meta">Partner: <strong>${escapeHtml(d.partner)}</strong> · Region: <strong>${escapeHtml(d.region)}</strong> · Go-Live: <strong>${escapeHtml(d.golive)}</strong></p>
+                <p class="meta">Project: <strong>${escapeHtml(d.partner)}</strong> · Go-Live: <strong>${escapeHtml(d.golive)}</strong></p>
                 
                 <h2>1. Integration Overview</h2>
                 <table>
-                    <tr><th>Warehouse Partner</th><td>${escapeHtml(d.partner)}</td></tr>
-                    <tr><th>Type of Integration</th><td>${escapeHtml(d.integrationType)}</td></tr>
-                    <tr><th>Strategic Fit</th><td>${nl2br(escapeHtml(d.fit))}</td></tr>
+                    <tr><th>Project Name</th><td>${escapeHtml(d.partner)}</td></tr>
+                    <tr><th>Type of work</th><td>${escapeHtml(d.integrationType)}</td></tr>
+                    <tr><th>Which problem does the project solve?</th><td>${nl2br(escapeHtml(d.problem))}</td></tr>
+                    <tr><th>Alternative solutions</th><td>${nl2br(escapeHtml(d.alternatives))}</td></tr>
+                    <tr><th>Link ticket request CU (?)</th><td>${escapeHtml(d.ticket)}</td></tr>
                 </table>
 
                 <h2>2. Value Assessment</h2>
                 <table>
                     <tr><th>Estimated Annual Revenue Growth</th><td>${formatCurrency(d.revenue)}</td></tr>
-                    <tr><th>Volume Growth (orders/month)</th><td>${escapeHtml(d.volume)}</td></tr>
-                    <tr><th>Expansion Benefits</th><td>${nl2br(escapeHtml(d.expansion))}</td></tr>
-                    <tr><th>Strategic Value</th><td>New region: <strong>${yes(d.sv_region)}</strong>, Key client: <strong>${yes(d.sv_client)}</strong>, Positioning: <strong>${yes(d.sv_position)}</strong>, Portfolio: <strong>${yes(d.sv_portfolio)}</strong></td></tr>
+                    <tr><th>Volume / Growth (orders/month) (if applicable)</th><td>${escapeHtml(d.volume)}</td></tr>
+                    <tr><th>Other non monetary benefits</th><td>${nl2br(escapeHtml(d.nonMonetaryBenefits))}</td></tr>
+                    <tr><th>New region access</th><td><strong>${yes(d.sv_region)}</strong><br>${nl2br(escapeHtml(d.sv_region_notes))}</td></tr>
+                    <tr><th>Key client requirement</th><td><strong>${yes(d.sv_client)}</strong><br>${nl2br(escapeHtml(d.sv_client_notes))}</td></tr>
+                    <tr><th>Competitive positioning</th><td><strong>${yes(d.sv_position)}</strong><br>${nl2br(escapeHtml(d.sv_position_notes))}</td></tr>
+                    <tr><th>Service portfolio improvement</th><td><strong>${yes(d.sv_portfolio)}</strong><br>${nl2br(escapeHtml(d.sv_portfolio_notes))}</td></tr>
                 </table>
 
                 <h2>3. Cost Assessment</h2>
-                <h3>One-off Costs</h3>
+                <h3>3.1 Development Costs (one-off)</h3>
                 <table>
-                    <tr><th>New API Development</th><td>${formatCurrency(d.c_newapi)}</td></tr>
-                    <tr><th>Customization / Coding</th><td>${formatCurrency(d.c_custom)}</td></tr>
-                    <tr><th>Standard API setup</th><td>${formatCurrency(d.c_setup_std)}</td></tr>
-                    <tr><th>Partner-specific config.</th><td>${formatCurrency(d.c_setup_partner)}</td></tr>
-                    <tr><th>Testing / Certification</th><td>${formatCurrency(d.c_test)}</td></tr>
-                    <tr><th>Project Management</th><td>${formatCurrency(d.c_pm)}</td></tr>
+                    <tr><th>Due Diligence Check & Technical Investigation time</th><td>${formatCurrency(d.c_due_diligence)}</td></tr>
+                    <tr><th>Development time/costs</th><td>${formatCurrency(d.c_dev)}</td></tr>
+                    <tr><th>Other (external) development costs</th><td>${formatCurrency(d.c_other_dev)}</td></tr>
                 </table>
-                <h3>Recurring Costs (Monthly)</h3>
+                <h3>3.2 Other one-off costs</h3>
                 <table>
-                    <tr><th>Hosting & Maintenance</th><td>${formatCurrency(d.c_hosting)}</td></tr>
-                    <tr><th>Support & Monitoring</th><td>${formatCurrency(d.c_support)}</td></tr>
-                    <tr><th>SLA / License fees</th><td>${formatCurrency(d.c_license)}</td></tr>
+                    <tr><th>PO/PM time/costs</th><td>${formatCurrency(d.c_po_pm)}</td></tr>
+                    <tr><th>Testing/certification time/costs</th><td>${formatCurrency(d.c_testing)}</td></tr>
+                    <tr><th>Documentation time/costs</th><td>${formatCurrency(d.c_docs)}</td></tr>
+                </table>
+                <h3>3.3 Recurring Operating Costs</h3>
+                <table>
+                    <tr><th>Hosting Maintenance (if applicable)</th><td>${formatCurrency(d.c_hosting)}</td></tr>
+                    <tr><th>Support & Monitoring (if applicable)</th><td>${formatCurrency(d.c_support)}</td></tr>
+                    <tr><th>SLA/License fees (if applicable)</th><td>${formatCurrency(d.c_license)}</td></tr>
+                    <tr><th>Other costs (from outcome talks with finance)</th><td>${formatCurrency(d.c_other_recurring)}</td></tr>
                 </table>
 
-                <h2>4. Summary</h2>
+                <h2>4. Monetary Costs vs. Benefits summary</h2>
                 <div class="kpi-summary">
                     <p><strong>Total One-off Technology Costs:</strong> ${formatCurrency(d.computed.oneoff)}</p>
                     <p><strong>Annual Recurring Technology Costs:</strong> ${formatCurrency(d.computed.annualRecurring)}</p>
@@ -320,7 +382,7 @@
                     <p><strong>ROI after year 3:</strong> ${formatPercent(d.computed.roiY3)}</p>
                 </div>
 
-                <h2>5. Risks</h2>
+                <h2>5. Risk Assessment</h2>
                 <table>
                     <tr><th>Technical Risk</th><td><strong>${escapeHtml(d.r_tech)}</strong><br>${nl2br(escapeHtml(d.r_tech_notes))}</td></tr>
                     <tr><th>Dependency Risk</th><td><strong>${escapeHtml(d.r_dep)}</strong><br>${nl2br(escapeHtml(d.r_dep_notes))}</td></tr>
@@ -333,6 +395,7 @@
                     <tr><th>Owner</th><td>${escapeHtml(d.owner)}</td></tr>
                     <tr><th>Reasoning</th><td>${nl2br(escapeHtml(d.reasoning))}</td></tr>
                 </table>
+                <p class="meta">Note: This is the recommendation of the BO (Business Owner) based on the data, but this does not mean the recommendation of the PO (Product Owner) will be the same.</p>
                 <p class="meta">Generated: ${(new Date()).toLocaleString('de-DE')}</p>
             </body></html>`;
 
@@ -350,45 +413,52 @@
 
         get('btnGenerateExcel').addEventListener('click', () => {
             const data = gather();
-            const { partner, region, integrationType, golive, fit, revenue, volume, expansion, sv_region, sv_client, sv_position, sv_portfolio,
-                    c_newapi, c_custom, c_setup_std, c_setup_partner, c_test, c_pm, c_hosting, c_support, c_license,
+            const { partner, integrationType, golive, ticket, problem, alternatives, revenue, volume, nonMonetaryBenefits,
+                    sv_region, sv_region_notes, sv_client, sv_client_notes, sv_position, sv_position_notes, sv_portfolio, sv_portfolio_notes,
+                    c_due_diligence, c_dev, c_other_dev, c_po_pm, c_testing, c_docs, c_hosting, c_support, c_license, c_other_recurring,
                     r_tech, r_tech_notes, r_dep, r_dep_notes, r_com, r_com_notes, decision, owner, reasoning, computed } = data;
 
-            // Structure data for Excel sheet
             const ws_data = [
                 ['Fulfilment Business Case'],
                 [],
                 ['1. Integration Overview'],
-                ['Warehouse Partner:', partner],
-                ['Country/Region:', region],
-                ['Type of Integration:', integrationType],
-                ['Expected Go-Live Date:', golive],
-                ['Required Integration:', fit],
+                ['Project Name:', partner],
+                ['Type of work:', integrationType],
+                ['Expected Go-Live Date (if applicable):', golive],
+                ['Link ticket request CU (?):', ticket],
+                ['Which problem does the project solve?:', problem],
+                ['Alternative solutions:', alternatives],
                 [],
                 ['2. Value Assessment'],
                 ['Estimated Annual Revenue Growth (€):', parseFloat(revenue) || 0],
-                ['Volume Growth (Orders / Month):', parseFloat(volume) || 0],
-                ['Customer / Market Expansion Benefits:', expansion],
-                ['Strategic Value (check all that apply):'],
+                ['Volume / Growth (Orders / Month) (if applicable):', parseFloat(volume) || 0],
+                ['Other non monetary benefits:', nonMonetaryBenefits],
+                ['Strategic Value:'],
                 ['New region access:', sv_region ? 'Yes' : 'No'],
+                ['Justification:', sv_region_notes],
                 ['Key client requirement:', sv_client ? 'Yes' : 'No'],
+                ['Justification:', sv_client_notes],
                 ['Competitive positioning:', sv_position ? 'Yes' : 'No'],
+                ['Justification:', sv_position_notes],
                 ['Service portfolio improvement:', sv_portfolio ? 'Yes' : 'No'],
+                ['Justification:', sv_portfolio_notes],
                 [],
                 ['3. Cost Assessment'],
-                ['One-off Costs'],
-                ['New API Development (€):', parseFloat(c_newapi) || 0],
-                ['Customization / Coding (€):', parseFloat(c_custom) || 0],
-                ['Standard API setup (€):', parseFloat(c_setup_std) || 0],
-                ['Partner-specific config. (€):', parseFloat(c_setup_partner) || 0],
-                ['Testing / Certification (€):', parseFloat(c_test) || 0],
-                ['Project Management / Onboarding (€):', parseFloat(c_pm) || 0],
-                ['Recurring Costs (Monthly)'],
-                ['Hosting & Maintenance (€/mo):', parseFloat(c_hosting) || 0],
-                ['Support & Monitoring (€/mo):', parseFloat(c_support) || 0],
-                ['SLA / License fees (€/mo):', parseFloat(c_license) || 0],
+                ['3.1 Development Costs (one-off)'],
+                ['Due Diligence Check & Technical Investigation time (€):', parseFloat(c_due_diligence) || 0],
+                ['Development time/costs (€):', parseFloat(c_dev) || 0],
+                ['Other (external) development costs (€):', parseFloat(c_other_dev) || 0],
+                ['3.2 Other one-off costs'],
+                ['PO/PM time/costs (€):', parseFloat(c_po_pm) || 0],
+                ['Testing/certification time/costs (€):', parseFloat(c_testing) || 0],
+                ['Documentation time/costs (€):', parseFloat(c_docs) || 0],
+                ['3.3 Recurring Operating Costs'],
+                ['Hosting Maintenance (€/mo) (if applicable):', parseFloat(c_hosting) || 0],
+                ['Support & Monitoring (€/mo) (if applicable):', parseFloat(c_support) || 0],
+                ['SLA/License fees (€/mo) (if applicable):', parseFloat(c_license) || 0],
+                ['Other costs (from outcome talks with finance) (€/mo):', parseFloat(c_other_recurring) || 0],
                 [],
-                ['4. Financial Summary'],
+                ['4. Monetary Costs vs. Benefits summary'],
                 ['Total One-off Technology Costs (€):', computed.oneoff],
                 ['Annual Recurring Technology Costs (€):', computed.annualRecurring],
                 ['Annual Opex (€):', computed.annualOpex],
@@ -410,48 +480,42 @@
                 ['Reasoning:', reasoning],
             ];
 
-            // Create a worksheet
             const ws = XLSX.utils.aoa_to_sheet(ws_data);
 
-            // Apply formatting (styles and column widths)
             ws['!merges'] = [{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } }];
             ws['A1'].s = { font: { sz: 16, bold: true, color: { rgb: "00B1E2" } } };
             
-            // Bold headings
-            const boldCells = ['A3', 'A10', 'A19', 'A20', 'A27', 'A32', 'A33', 'A41', 'A49'];
+            const boldCells = ['A3', 'A10', 'A14', 'A24', 'A25', 'A29', 'A33', 'A40', 'A47', 'A55'];
             boldCells.forEach(cell => {
                 if (ws[cell]) {
                     ws[cell].s = { font: { bold: true } };
                 }
             });
 
-            // Format numbers
-            ws['B11'].t = 'n'; // Revenue
-            ws['B12'].t = 'n'; // Volume
-            ws['B22'].t = 'n'; // New API
-            ws['B23'].t = 'n'; // Custom
-            ws['B24'].t = 'n'; // Std setup
-            ws['B25'].t = 'n'; // Partner setup
-            ws['B26'].t = 'n'; // Testing
-            ws['B27'].t = 'n'; // PM
-            ws['B29'].t = 'n'; // Hosting
-            ws['B30'].t = 'n'; // Support
-            ws['B31'].t = 'n'; // License
-            ws['B34'].t = 'n'; ws['B34'].z = '0.00" €"'; // oneoff
-            ws['B35'].t = 'n'; ws['B35'].z = '0.00" €"'; // recurring
-            ws['B36'].t = 'n'; ws['B36'].z = '0.00" €"'; // opex
-            ws['B37'].t = 'n'; ws['B37'].z = '0.00" €"'; // revenue
-            ws['B38'].t = 'n'; ws['B38'].z = '0.00%'; // ROI y1
-            ws['B39'].t = 'n'; ws['B39'].z = '0.00%'; // ROI y3
+            ws['B11'].t = 'n';
+            ws['B12'].t = 'n';
+            ws['B26'].t = 'n';
+            ws['B27'].t = 'n';
+            ws['B28'].t = 'n';
+            ws['B30'].t = 'n';
+            ws['B31'].t = 'n';
+            ws['B32'].t = 'n';
+            ws['B34'].t = 'n';
+            ws['B35'].t = 'n';
+            ws['B36'].t = 'n';
+            ws['B37'].t = 'n';
+            ws['B41'].t = 'n'; ws['B41'].z = '0.00" €"';
+            ws['B42'].t = 'n'; ws['B42'].z = '0.00" €"';
+            ws['B43'].t = 'n'; ws['B43'].z = '0.00" €"';
+            ws['B44'].t = 'n'; ws['B44'].z = '0.00" €"';
+            ws['B45'].t = 'n'; ws['B45'].z = '0.00%';
+            ws['B46'].t = 'n'; ws['B46'].z = '0.00%';
             
-            // Set column widths for better readability
             ws['!cols'] = [{ wch: 30 }, { wch: 50 }];
 
-            // Create a workbook and append the worksheet
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, "Business Case Summary");
 
-            // Generate and download the file
             const partnerSafe = (partner || 'business-case').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
             XLSX.writeFile(wb, `${partnerSafe}.xlsx`);
         });
